@@ -31,15 +31,19 @@ To get started, in your terminal, type in 'node questions'
 <br>
 You will be presented with options of what you would like to do? To select a choice you will use the arrows on your keyboard and hit enter when you are ready to move forward. 
 <br>
-![screenshot](./public/assets/screenshots/screenshot2.png)
+![screenshot](./public/assets/screenshot1.png)
 <br>
 You can view all departments, roles, and all employees
 <br>
-![screenshot](./public/assets/screenshots/screenshot3.png)
+![screenshot](./public/assets/screenshot2.png)
 <br>
 You can add departments, roles, and employees
 <br>
-![screenshot](./public/assets/screenshots/screenshot3.png)
+![screenshot](./public/assets/screenshot3.png)
+<br>
+You can then view your additions
+<br>
+![screenshot](./public/assets/screenshot4.png)
 <br>
 
 
