@@ -39,16 +39,16 @@ const addEmployee = [
     },
     {
         name: 'role',
-        type: 'list',
-        message: `What is the employee's role?`,
-        choices: ['Tech', 'Manager', 'CEO', 'Secretary', 'Intern'], // still need to be able to add roles 
+        type: 'input',
+        message: `What is the ID of the employee's role?`,
+        //choices: ['Tech', 'Manager', 'CEO', 'Secretary', 'Intern'], // still need to be able to add roles 
     },
-    {
-        name: 'manager',
-        type: 'list',
-        message: `Who is the employee's manager?`,
-        choices: "what to put here?" // <<<<<<<<<<<<< how do i give it choices?
-    },
+    // {
+    //     name: 'manager',
+    //     type: 'list',
+    //     message: `Who is the employee's manager?`,
+    //     choices: "what to put here?" // <<<<<<<<<<<<< how do i give it choices?
+    // },
 ];
 
 const addRole = [
@@ -58,15 +58,15 @@ const addRole = [
         message: `What is the name of the role?`
     },
     {
-        name: 'lastName',
+        name: 'salary',
         type: 'input',
         message: `What is the salary of the role?`
     },
     {
         name: 'department',
-        type: 'list',
+        type: 'input',
         message: `Which department does the role belong to?`,
-        choices: "what to put here?" // <<<<<<<<<<<<< how do i give it choices?
+        //choices: "what to put here?" // <<<<<<<<<<<<< how do i give it choices?
     }
 ];
 
@@ -77,6 +77,23 @@ const addDepartment = [
         message: `What is the name of the department?`
     }
 ];
+
+function viewDepartments() {
+    db.query('select * from departments', 
+        function(error, results, fields) {
+            if (error) throw error;
+            console.table(results);
+          })
+};
+
+function viewRoles() {
+    db.query('select * from roles', 
+        function(error, results, fields) {
+            if (error) throw error;
+            console.table(results);
+          })
+};
+
 function start(){
     inquirer.prompt(question).then(answer => {
     if (answer.question == 'View all departments') {
@@ -102,6 +119,40 @@ function start(){
             console.table(results);
             start()
           })
+    }
+    if (answer.question == 'Add a department') {
+        inquirer.prompt(addDepartment).then(depData => {
+        db.query(`INSERT INTO departments (department_name) VALUES ('${depData.depName}');`,
+        function(error, results, fields) {
+            if (error) throw error;
+            console.table(results);
+            start()
+          })
+        })
+    }
+
+    if (answer.question == 'Add a role') {
+        //console.table(department)
+        viewDepartments();
+        inquirer.prompt(addRole).then(roleData => {
+        db.query(`INSERT INTO roles (department_id, title, salary) VALUES (${roleData.department}, '${roleData.roleName}', ${roleData.salary});`,
+        function(error, results, fields) {
+            if (error) throw error;
+            console.table(results);
+            start()
+          })
+        })
+    }
+    if (answer.question == 'Add an employee') {
+        viewRoles();
+        inquirer.prompt(addEmployee).then(employeeData => {
+        db.query(`INSERT INTO employees (first_name, last_name, role_id) VALUES ('${employeeData.firstName}', '${employeeData.lastName}', ${employeeData.role});`,
+        function(error, results, fields) {
+            if (error) throw error;
+            console.table(results);
+            start()
+          })
+        })
     }
 });
 }
